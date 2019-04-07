@@ -248,7 +248,7 @@ window.onload = () => {
         `${camCoords.x} ${camCoords.y} ${camCoords.z}`
       );
 
-      const sphereCoords = llaToCartesion({ ...dest.coords.absolute });
+      const sphereCoords = llaToCartesion({ ...destCoords.absolute });
 
       sphere.setAttribute(
         "position",
