@@ -209,15 +209,17 @@ console.log(llaToCartesion(destCoords.absolute));
 window.onload = () => {
   const scene = document.getElementById("global-scene");
   const rig = document.createElement("a-entity");
-  rig.setAttribute("position", "0 0 0");
+  // rig.setAttribute("position", "0 0 0");
   rig.appendChild(document.createElement("a-camera"));
   const sphere = document.createElement("a-sphere");
   sphere.setAttribute("radius", "20");
   sphere.setAttribute("color", "#EF2D5E");
-  sphere.setAttribute("position", "814.5 182.1 -1081.0");
+  // sphere.setAttribute("position", "814.5 182.1 -1081.0");
 
   const initPositioning = evt => {
-    var heading = null;
+    window.removeEventListener("deviceorientationabsolute", initPositioning);
+
+    let heading = null;
 
     if (evt.absolute === true && evt.alpha !== null) {
       heading = compassHeading(evt.alpha, evt.beta, evt.gamma);
@@ -226,10 +228,36 @@ window.onload = () => {
     console.log(`heading: ${heading}`);
 
     rig.setAttribute("rotation", `0 ${heading} 0`);
-    scene.appendChild(rig);
-    scene.appendChild(sphere);
 
-    window.removeEventListener("deviceorientationabsolute", initPositioning);
+    navigator.geolocation.getCurrentPosition(pos => {
+      console.log(pos.coords);
+
+      const camCoords = llaToCartesion({
+        lat: pos.latitude,
+        lon: pos.longitude,
+        alt: pos.altitude
+      });
+
+      rig.setAttribute(
+        "position",
+        `${camCoords.x} ${camCoords.y} ${camCoords.z}`
+      );
+
+      rig.setAttribute(
+        "position",
+        `${camCoords.x} ${camCoords.y} ${camCoords.z}`
+      );
+
+      const sphereCoords = llaToCartesion({ ...dest.coords.absolute });
+
+      sphere.setAttribute(
+        "position",
+        `${sphereCoords.x} ${sphereCoords.y} ${sphereCoords.z}`
+      );
+
+      scene.appendChild(rig);
+      scene.appendChild(sphere);
+    });
   };
 
   window.addEventListener("deviceorientationabsolute", initPositioning, false);
