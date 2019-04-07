@@ -209,9 +209,11 @@ console.log(llaToCartesion(destCoords.absolute));
 window.onload = () => {
   const scene = document.getElementById("global-scene");
   const rig = document.createElement("a-entity");
+  rig.setAttribute("id", "wades-rig");
   // rig.setAttribute("position", "0 0 0");
   rig.appendChild(document.createElement("a-camera"));
   const sphere = document.createElement("a-sphere");
+  sphere.setAttribute("id", "wades-sphere");
   sphere.setAttribute("radius", "20");
   sphere.setAttribute("color", "#EF2D5E");
   // sphere.setAttribute("position", "814.5 182.1 -1081.0");
@@ -238,6 +240,9 @@ window.onload = () => {
         alt: pos.altitude
       });
 
+      console.log("camCoords");
+      console.log(`${camCoords.x} ${camCoords.y} ${camCoords.z}`);
+
       rig.setAttribute(
         "position",
         `${camCoords.x} ${camCoords.y} ${camCoords.z}`
@@ -250,6 +255,9 @@ window.onload = () => {
 
       const sphereCoords = llaToCartesion({ ...destCoords.absolute });
 
+      console.log("sphereCoords:");
+      console.log(`${sphereCoords.x} ${sphereCoords.y} ${sphereCoords.z}`);
+
       sphere.setAttribute(
         "position",
         `${sphereCoords.x} ${sphereCoords.y} ${sphereCoords.z}`
@@ -259,6 +267,4 @@ window.onload = () => {
       scene.appendChild(sphere);
     });
   };
-
-  window.addEventListener("deviceorientationabsolute", initPositioning, false);
 };
