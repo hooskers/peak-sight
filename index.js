@@ -235,9 +235,9 @@ window.onload = () => {
       console.log(pos.coords);
 
       const camCoords = llaToCartesion({
-        lat: pos.latitude,
-        lon: pos.longitude,
-        alt: pos.altitude
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
+        alt: pos.coords.altitude
       });
 
       console.log("camCoords");
