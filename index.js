@@ -267,4 +267,6 @@ window.onload = () => {
       scene.appendChild(sphere);
     });
   };
+
+  window.addEventListener("deviceorientationabsolute", initPositioning);
 };
